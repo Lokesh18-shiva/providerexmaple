@@ -40,7 +40,7 @@ class _CounterExampleState extends State<CounterExample> {
                   reaction((_) {
                   return _counter.value;
                 }, (_) {
-                  print('Counter changed to ${_counter.value}');
+                  // print('Counter changed to ${_counter.value}');
                 });
                 return Text(
                   '${_counter.value}',

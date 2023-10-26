@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:mobx/mobx.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -27,7 +29,7 @@ abstract class _UserStore with Store {
         users.addAll(newusers);
       }
     } catch (e) {
-      print('Error fetching users: $e');
+      // print('Error fetching users: $e');
     } finally {
       isloading = false;
     }

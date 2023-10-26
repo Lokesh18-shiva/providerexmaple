@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart'; 
 
 void main() {
   runApp(const MyApp());
@@ -10,28 +9,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => CounterProvider()),
-          ProxyProvider<CounterProvider, String>(
-            update: (_, counterProvider, __) => "Count: ${counterProvider.count}",
-          ),
-        ],
-        child: MyHomePage(),
-      ),
+    return const MaterialApp(
+      home: MyHomePage(),
     );
-  }
-}
-
-class CounterProvider extends ChangeNotifier {
-  int _count = 0;
-
-  int get count => _count;
-
-  void increment() {
-    _count++;
-    notifyListeners();
   }
 }
 
@@ -40,24 +20,48 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final countString = Provider.of<String>(context);
-
     return Scaffold(
-      appBar: AppBar(
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(countString),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Provider.of<CounterProvider>(context, listen: false).increment();
-        },
-        child: const Icon(Icons.add),
+      body: Stack(
+        children: <Widget>[
+          CustomScrollView(
+            slivers: <Widget>[
+              const SliverAppBar(
+                title: Text('Pinned Container Example'),
+                floating: false,
+                pinned: true,
+              ),
+              SliverToBoxAdapter(child: Container(height: 100,color: Colors.amber,),),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return Container(
+                      height: 200.0,
+                      color: Colors.grey[200],
+                      child: Center(
+                        child: Text('Container $index'),
+                      ),
+                    );
+                  },
+                  childCount: 15,
+                ),
+              ),
+            ],
+          ),
+          Positioned(
+            top: kToolbarHeight*3, // Place the container just below the AppBar
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 100.0, // Adjust as needed
+              color: Colors.black12,
+              alignment: Alignment.center,
+              child: const Text(
+                'Pinned Container',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
