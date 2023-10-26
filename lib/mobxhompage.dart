@@ -9,6 +9,8 @@ void main() {
 class MyApp extends StatelessWidget {
   final userStore = UserStore();
 
+  MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
